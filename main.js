@@ -63,14 +63,22 @@ printInHtml();
 
 const likeBtn = document.getElementsByClassName("js-like-button");
 
-const likeArr = Array.from(likeBtn);
-likeArr.forEach((content,index)=>{
+const likeBtnArr = Array.from(likeBtn);
+likeBtnArr.forEach((content,index)=>{
     content.addEventListener("click", function(){
-        content.classList.add("like-button--liked");
-        posts[index].likes++;
+        const currentId = this.getAttribute("data-postid");
         const likeHtmlArr = document.getElementsByClassName("js-likes-counter");
+        if(Array.from(this.classList).includes("like-button--liked")){
+            likedArr.pop(currentId) 
+            content.classList.remove("like-button--liked");
+            posts[index].likes--;
+        }else{
+            content.classList.add("like-button--liked");
+            posts[index].likes++;
+            likedArr.push(currentId);
+        }
         likeHtmlArr[index].innerHTML = posts[index].likes;
-        likedArr.push(index);
+        console.log(likedArr);
     })
 })
 
@@ -98,7 +106,7 @@ function printInHtml(){
                 <div class="post__footer">
                     <div class="likes js-likes">
                         <div class="likes__cta">
-                            <a class="like-button js-like-button" href="#" data-postid="1">
+                            <a class="like-button js-like-button" href="#" data-postid="${content.id}">
                                 <i class="like-button__icon  fas fa-thumbs-up" aria-hidden="true"></i>
                                 <span class="like-button__label ">Mi Piace</span>
                             </a>
@@ -109,25 +117,18 @@ function printInHtml(){
                     </div> 
                 </div>            
             </div>` 
+        const lastPost = document.querySelector(".post:last-child");
+        lastPost.id = content.id;
     });
           
 }
 
 
-const currentDate = new Date();
-const objDate = new Date(posts[0].created);
-const diffTime = Math.abs(currentDate - objDate);
-const diffMonth = Math.round(diffTime / (1000 * 60 * 60 * 24 * 30)); 
-
-
-
-
-
 function formatDate(dateString){
-
     const dateToFormat = new Date(dateString);
     return `${dateToFormat.getDate()}-${dateToFormat.getMonth()+1}-${dateToFormat.getFullYear()}`
 }
+
 
 function differenceBetweenDate(dateString){
     const currentDate = new Date();
@@ -137,7 +138,6 @@ function differenceBetweenDate(dateString){
     if(days > 60){
         return `${Math.round(days / 30)} month ago`;
     }else return `${days}days ago`
-    
 }
 
 function profileImg(obj){
@@ -162,6 +162,5 @@ function getFirstLetters(obj){
     arrName.forEach((element) => {
         str += element.charAt(0);
     })
-    console.log(str);
     return str
 }
