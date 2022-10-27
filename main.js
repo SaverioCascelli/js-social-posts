@@ -56,9 +56,24 @@ const posts = [
     }
 ];
 
+const likedArr = [];
 const container = document.getElementById("container");
 
 printInHtml();
+
+const likeBtn = document.getElementsByClassName("js-like-button");
+
+const likeArr = Array.from(likeBtn);
+likeArr.forEach((content,index)=>{
+    content.addEventListener("click", function(){
+        content.classList.add("like-button--liked");
+        posts[index].likes++;
+        const likeHtmlArr = document.getElementsByClassName("js-likes-counter");
+        likeHtmlArr[index].innerHTML = posts[index].likes;
+        likedArr.push(index);
+        console.log(likedArr);
+    })
+})
 
 function printInHtml(){
     posts.forEach((content,i) =>{
@@ -84,9 +99,9 @@ function printInHtml(){
                 <div class="post__footer">
                     <div class="likes js-likes">
                         <div class="likes__cta">
-                            <a class="like-button  js-like-button" href="#" data-postid="1">
-                                <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
-                                <span class="like-button__label">Mi Piace</span>
+                            <a class="like-button js-like-button" href="#" data-postid="1">
+                                <i class="like-button__icon  fas fa-thumbs-up" aria-hidden="true"></i>
+                                <span class="like-button__label ">Mi Piace</span>
                             </a>
                         </div>
                         <div class="likes__counter">
