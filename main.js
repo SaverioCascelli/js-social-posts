@@ -72,7 +72,8 @@ function printInHtml(){
                         </div>
                         <div class="post-meta__data">
                             <div class="post-meta__author">${content.author.name}</div>
-                            <div class="post-meta__time">TODO</div>
+                            <div class="post-meta__time">${formatDate(content.created)}</div>
+                            <div class="post-meta__time">${differenceBetweenDate(content.created)}</div>
                         </div>                    
                     </div>
                 </div>
@@ -96,4 +97,31 @@ function printInHtml(){
             </div>` 
     });
           
+}
+
+
+const currentDate = new Date();
+const objDate = new Date(posts[0].created);
+const diffTime = Math.abs(currentDate - objDate);
+const diffMonth = Math.round(diffTime / (1000 * 60 * 60 * 24 * 30)); 
+
+
+
+console.log(differenceBetweenDate(posts[0].created));
+
+function formatDate(dateString){
+
+    const dateToFormat = new Date(dateString);
+    return `${dateToFormat.getDate()}-${dateToFormat.getMonth()+1}-${dateToFormat.getFullYear()}`
+}
+
+function differenceBetweenDate(dateString){
+    const currentDate = new Date();
+    const objDate = new Date(dateString);
+    const diffTime = Math.abs(currentDate - objDate);
+    const days = Math.round(diffTime / (1000 * 60 * 60 * 24)); 
+    if(days > 60){
+        return `${Math.round(days / 30)} month ago`;
+    }else return `${days}days ago`
+    
 }
