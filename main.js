@@ -71,7 +71,6 @@ likeArr.forEach((content,index)=>{
         const likeHtmlArr = document.getElementsByClassName("js-likes-counter");
         likeHtmlArr[index].innerHTML = posts[index].likes;
         likedArr.push(index);
-        console.log(likedArr);
     })
 })
 
@@ -83,7 +82,7 @@ function printInHtml(){
                 <div class="post__header">
                     <div class="post-meta">                    
                         <div class="post-meta__icon">
-                            <img class="profile-pic" src="${content.author.image}" alt="${content.name}">                    
+                            ${profileImg(content)}
                         </div>
                         <div class="post-meta__data">
                             <div class="post-meta__author">${content.author.name}</div>
@@ -122,7 +121,7 @@ const diffMonth = Math.round(diffTime / (1000 * 60 * 60 * 24 * 30));
 
 
 
-console.log(differenceBetweenDate(posts[0].created));
+
 
 function formatDate(dateString){
 
@@ -139,4 +138,30 @@ function differenceBetweenDate(dateString){
         return `${Math.round(days / 30)} month ago`;
     }else return `${days}days ago`
     
+}
+
+function profileImg(obj){
+    const author = obj.author; 
+    if(author.image) {
+        return `
+        <img class="profile-pic" src="${author.image}" alt="${author.name}"> 
+        `
+    } else {
+        return `
+        <div class="profile-pic-default"><span>${getFirstLetters(obj)}</span></div>
+        `
+    }
+}
+
+function getFirstLetters(obj){
+    
+    const author = obj.author.name; 
+
+    const arrName = author.split(/\s+/);
+    let str = ""
+    arrName.forEach((element) => {
+        str += element.charAt(0);
+    })
+    console.log(str);
+    return str
 }
